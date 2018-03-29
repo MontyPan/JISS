@@ -27,6 +27,12 @@
 			<artifactId>gf</artifactId>
 			<version>0.0.2</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.5</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
