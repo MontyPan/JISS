@@ -21,4 +21,9 @@ public class ${eventName}Event extends GwtEvent<${eventName}Handler> {
 	public interface ${eventName}Handler extends EventHandler{
 		public void on${eventName}(${eventName}Event event);
 	}
+	
+	//FIXME 搬到 DataCenter 去
+	public static HandlerRegistration add${eventName}(${eventName}Handler handler) {
+		return eventBus.addHandler(${eventName}Event.TYPE, handler);
+	}
 }
