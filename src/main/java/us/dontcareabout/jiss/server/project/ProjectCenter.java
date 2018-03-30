@@ -83,7 +83,9 @@ public class ProjectCenter {
 	}
 
 	private static File packageFolder(Project project, String packageName) {
-		return new File(javaFolder(project), packageName.replace('.', File.separatorChar));
+		File result = new File(javaFolder(project), packageName.replace('.', File.separatorChar));
+		if (!result.exists()) { result.mkdirs(); }
+		return result;
 	}
 
 	private static File javaFolder(Project project) {
