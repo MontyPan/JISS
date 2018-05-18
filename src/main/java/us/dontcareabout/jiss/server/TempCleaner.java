@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * <ul>
  * 	<li>GWT 檔案：gwt*byte-cache、ImageResourceGenerator*.*</li>
  * 	<li>GWT 目錄：gwt-codeserver-*tmp、ResourceProvider*</li>
+ * 	<li>KKMan 檔案：~D*.TMP</li>
  * </ul>
  */
 public class TempCleaner {
@@ -26,6 +27,11 @@ public class TempCleaner {
 	}
 
 	private static void processFile(File file, ArrayList<File> error) {
+		if (file.getName().matches("~D.*TMP")) {
+			delete(file, error);
+			return;
+		}
+
 		if(file.getName().matches("gwt.*byte-cache")) {
 			delete(file, error);
 			return;
