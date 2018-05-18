@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * <p>
  * 目前會砍掉下列東西：
  * <ul>
+ * 	<li>Eclipse 檔案：problem-index*.zip</li>
  * 	<li>GWT 檔案：gwt*byte-cache、ImageResourceGenerator*.*</li>
  * 	<li>GWT 目錄：gwt-codeserver-*tmp、ResourceProvider*</li>
  * 	<li>KKMan 檔案：~D*.TMP</li>
@@ -42,6 +43,10 @@ public class TempCleaner {
 			return;
 		}
 
+		if (file.getName().matches("problems-index.*zip")) {
+			delete(file, error);
+			return;
+		}
 		//XXX 以前還有個 uiBinder_com.* 的條件，現在弄不出來... O.o
 	}
 
