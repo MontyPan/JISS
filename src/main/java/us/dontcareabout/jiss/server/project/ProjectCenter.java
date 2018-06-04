@@ -1,10 +1,8 @@
 package us.dontcareabout.jiss.server.project;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,6 +13,7 @@ import com.google.gson.Gson;
 
 import freemarker.template.Configuration;
 import us.dontcareabout.jiss.server.Setting;
+import us.dontcareabout.jiss.server.Util;
 import us.dontcareabout.jiss.shared.Project;
 
 public class ProjectCenter {
@@ -30,7 +29,7 @@ public class ProjectCenter {
 		ArrayList<Project> result = new ArrayList<>();
 
 		for (File file : PROJECT_DIR.listFiles()) {
-			result.add(gson(file, Project.class));
+			result.add(Util.parseJson(file, Project.class));
 		}
 
 		return result;
@@ -43,18 +42,6 @@ public class ProjectCenter {
 			Files.write(file.toPath(), gson.toJson(project).getBytes(StandardCharsets.UTF_8));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-
-	//Refactory 考慮抽到 GF？
-	private static <T> T gson(File file, Class<T> classT) {
-		try {
-			InputStreamReader fr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-			T result = gson.fromJson(fr, classT);
-			fr.close();
-			return result;
-		} catch (Exception e) {
-			return null;
 		}
 	}
 
