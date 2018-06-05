@@ -10,7 +10,7 @@ public class PathHelper {
 
 	public static File packageFolder(Project project, String subPackage) {
 		return javaBasePath(project)
-			.append(subPackage.split("\\."))
+			.append(pkgToStr(subPackage))
 			.existFolder()
 			.toFile();
 	}
