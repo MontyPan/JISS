@@ -1,19 +1,17 @@
 package us.dontcareabout.jiss.server;
 
-import java.io.File;
-
 import us.dontcareabout.java.common.DoubleProperties;
 
 public class Setting extends DoubleProperties {
-	private static File workspace;
+	private static String workspace;
 
 	public Setting() {
-		super("dev-setting.xml", "JIZZ.xml");
+		super("dev-setting.xml", "JISS.xml");
 	}
 
-	public File workspace() {
+	public String workspace() {
 		if (workspace == null) {
-			workspace = new File(getProperty("workspace"));
+			workspace = getProperty("workspace");
 		}
 
 		return workspace;

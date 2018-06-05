@@ -5,13 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
 
 import freemarker.template.Configuration;
+import us.dontcareabout.java.common.Paths;
 import us.dontcareabout.jiss.server.Setting;
 import us.dontcareabout.jiss.server.Util;
 import us.dontcareabout.jiss.shared.Project;
@@ -21,8 +21,7 @@ public class ProjectCenter {
 	private static final Setting SETTING = new Setting();
 	private static final File PROJECT_DIR;
 	static {
-		PROJECT_DIR = new File(SETTING.workspace(), "project");
-		if (!PROJECT_DIR.exists()) { PROJECT_DIR.mkdirs(); }
+		PROJECT_DIR = new Paths(SETTING.workspace()).append("project").existFolder().toFile();
 	}
 
 	public static ArrayList<Project> getProjects() {
@@ -47,7 +46,6 @@ public class ProjectCenter {
 
 	// ==== FreeMarker 區 ==== //
 	private static final Configuration ftlConfig = new Configuration();
-	private static final String[] JAVA_SRC_ROOT = new String[]{"src", "main", "java"};
 
 	static {
 		ftlConfig.setClassForTemplateLoading(ProjectCenter.class, "");
@@ -59,27 +57,13 @@ public class ProjectCenter {
 		data.put("project", project);
 		data.put("subPackage", subPackage);
 		data.put("eventName", eventName);
+		File packageFolder = PathHelper.packageFolder(project, subPackage);
+
 		gen(
 			"DataEvent.ftl",
 			data,
-			new File(
-				packageFolder(project, (project.getRootPackage() + "." + subPackage)),
-				eventName + "Event.java"
-			)
+			new File(packageFolder, eventName + "Event.java")
 		);
-	}
-
-	private static File packageFolder(Project project, String packageName) {
-		File result = new File(javaFolder(project), packageName.replace('.', File.separatorChar));
-		if (!result.exists()) { result.mkdirs(); }
-		return result;
-	}
-
-	private static File javaFolder(Project project) {
-		return Paths.get(
-			project.getPath(),
-			JAVA_SRC_ROOT
-		).toFile();
 	}
 
 	private static void gen(String ftlName, HashMap<String, Object> data, File target) throws Exception {
