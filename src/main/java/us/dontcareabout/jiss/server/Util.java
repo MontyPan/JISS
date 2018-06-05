@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
@@ -18,6 +19,21 @@ public class Util {
 			return result;
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	public static void deleteFolder(File folder, ArrayList<File> error) {
+		for (File f : folder.listFiles()) {
+			if (f.isFile()) { delete(f, error); }
+			else { deleteFolder(f, error); }
+		}
+
+		delete(folder, error);
+	}
+
+	public static void delete(File file, ArrayList<File> log) {
+		if (!file.delete()) {
+			log.add(file);
 		}
 	}
 }

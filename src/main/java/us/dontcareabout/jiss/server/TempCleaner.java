@@ -1,5 +1,8 @@
 package us.dontcareabout.jiss.server;
 
+import static us.dontcareabout.jiss.server.Util.delete;
+import static us.dontcareabout.jiss.server.Util.deleteFolder;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -58,21 +61,6 @@ public class TempCleaner {
 
 		if (folder.getName().startsWith("ResourceProvider")) {
 			deleteFolder(folder, error);
-		}
-	}
-
-	private static void deleteFolder(File folder, ArrayList<File> error) {
-		for (File f : folder.listFiles()) {
-			if (f.isFile()) { delete(f, error); }
-			else { deleteFolder(f, error); }
-		}
-
-		delete(folder, error);
-	}
-
-	private static void delete(File file, ArrayList<File> log) {
-		if (!file.delete()) {
-			log.add(file);
 		}
 	}
 }
