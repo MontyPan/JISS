@@ -23,6 +23,8 @@ public class Util {
 	}
 
 	public static void deleteFolder(File folder, ArrayList<File> error) {
+		if (!folder.exists()) { return; }
+
 		for (File f : folder.listFiles()) {
 			if (f.isFile()) { delete(f, error); }
 			else { deleteFolder(f, error); }
@@ -31,9 +33,9 @@ public class Util {
 		delete(folder, error);
 	}
 
-	public static void delete(File file, ArrayList<File> log) {
+	public static void delete(File file, ArrayList<File> error) {
 		if (!file.delete()) {
-			log.add(file);
+			error.add(file);
 		}
 	}
 }
