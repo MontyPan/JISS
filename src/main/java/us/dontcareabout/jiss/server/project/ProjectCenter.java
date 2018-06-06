@@ -44,6 +44,27 @@ public class ProjectCenter {
 		}
 	}
 
+	// ==== 自動化區 ==== //
+	public static void build(Project project) throws IOException {
+		String gwtModule = GwtHelper.moduleName(project);
+		File jsFolder = new File(PathHelper.webappFolder(project), gwtModule);
+		ArrayList<File> error = new ArrayList<>();
+
+		//先刪除 webapp 下的 GWT compile 結果
+		Util.deleteFolder(jsFolder, error);
+		Maven.install(new File(project.getPath()));
+
+		//把 GWT compile 結果塞回 webapp 底下
+		Util.copyFolder(
+			new File(PathHelper.targetWarFolder(project), gwtModule),
+			jsFolder,
+			error
+		);
+
+		//目前不打算理會 error... XD
+	}
+	// ======== //
+
 	// ==== FreeMarker 區 ==== //
 	private static final Configuration ftlConfig = new Configuration();
 
