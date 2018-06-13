@@ -1,6 +1,8 @@
 package us.dontcareabout.jiss.client.ui;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
@@ -44,7 +46,7 @@ public class ProjectHome extends VerticalLayoutContainer {
 		private TextButton buildBtn = new TextButton("build");
 		private TextButton genEventBtn = new TextButton("Gen Event");
 
-		public ProjectLayer(Project project) {
+		public ProjectLayer(final Project project) {
 			setBgColor(RGB.GREEN);
 			setBgRadius(10);
 
@@ -53,6 +55,12 @@ public class ProjectHome extends VerticalLayoutContainer {
 			add(nameTS);
 
 			buildBtn.setBgColor(RGB.YELLOW);
+			buildBtn.addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					DataCenter.build(project);
+				}
+			});
 			add(buildBtn);
 
 			genEventBtn.setBgColor(RGB.YELLOW);
