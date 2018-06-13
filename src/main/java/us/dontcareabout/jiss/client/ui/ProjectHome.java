@@ -1,5 +1,6 @@
 package us.dontcareabout.jiss.client.ui;
 
+import com.google.gwt.user.client.Window;
 import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent.SpriteSelectionHandler;
@@ -64,6 +65,12 @@ public class ProjectHome extends VerticalLayoutContainer {
 			add(buildBtn);
 
 			genEventBtn.setBgColor(RGB.YELLOW);
+			genEventBtn.addSpriteSelectionHandler(new SpriteSelectionHandler() {
+				@Override
+				public void onSpriteSelect(SpriteSelectionEvent event) {
+					DataCenter.genEvent(project, Window.prompt("Event 名稱", ""));
+				}
+			});
 			add(genEventBtn);
 		}
 
