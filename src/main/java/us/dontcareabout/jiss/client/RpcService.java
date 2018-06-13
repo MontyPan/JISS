@@ -13,4 +13,5 @@ public interface RpcService extends RemoteService{
 
 	ArrayList<Project> getProjects();
 	void build(Project p) throws Exception;
+	void genEvent(Project p, String name) throws Exception;
 }

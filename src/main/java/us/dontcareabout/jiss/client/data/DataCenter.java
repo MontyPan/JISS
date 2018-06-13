@@ -52,9 +52,28 @@ public class DataCenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
-				UiCenter.unmask();
+				handleError(caught);
 			}
 		});
+	}
+
+	public static void genEvent(Project project, String name) {
+		UiCenter.processing();
+		rpc.genEvent(project, name, new AsyncCallback<Void>() {
+			@Override
+			public void onSuccess(Void result) {
+				UiCenter.unmask();
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				handleError(caught);
+			}
+		});
+	}
+
+	private static void handleError(Throwable error) {
+		Window.alert(error.getMessage());
+		UiCenter.unmask();
 	}
 }

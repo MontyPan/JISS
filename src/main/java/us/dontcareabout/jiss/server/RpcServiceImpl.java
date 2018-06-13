@@ -30,4 +30,14 @@ public class RpcServiceImpl extends GFServiceServlet implements RpcService {
 			throw new Exception(e.getMessage());
 		}
 	}
+
+	@Override
+	public void genEvent(Project p, String name) throws Exception {
+		try {
+			ProjectCenter.genDataEvent(p, name);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+	}
 }
