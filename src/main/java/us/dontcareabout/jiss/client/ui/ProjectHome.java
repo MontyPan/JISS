@@ -44,11 +44,11 @@ public class ProjectHome extends VerticalLayoutContainer {
 		private TextButton buildBtn = new TextButton("build");
 		private TextButton genEventBtn = new TextButton("Gen Event");
 
-		public ProjectLayer(String name) {
+		public ProjectLayer(Project project) {
 			setBgColor(RGB.GREEN);
 			setBgRadius(10);
 
-			nameTS.setText(name);
+			nameTS.setText(project.getName());
 			nameTS.setFill(RGB.WHITE);
 			add(nameTS);
 
@@ -95,7 +95,7 @@ public class ProjectHome extends VerticalLayoutContainer {
 		@Override
 		protected void render() {
 			for (Project p : getStore().getAll()) {
-				add(new ProjectLayer(p.getName()));
+				add(new ProjectLayer(p));
 			}
 		}
 
