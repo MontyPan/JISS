@@ -1,5 +1,6 @@
 package us.dontcareabout.jiss.server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import us.dontcareabout.gwt.server.GFServiceServlet;
@@ -18,5 +19,15 @@ public class RpcServiceImpl extends GFServiceServlet implements RpcService {
 	@Override
 	public ArrayList<Project> getProjects() {
 		return ProjectCenter.getProjects();
+	}
+
+	@Override
+	public void build(Project p) throws Exception {
+		try {
+			ProjectCenter.build(p);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
 	}
 }
