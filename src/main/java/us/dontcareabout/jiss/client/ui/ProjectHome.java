@@ -68,7 +68,9 @@ public class ProjectHome extends VerticalLayoutContainer {
 			genEventBtn.addSpriteSelectionHandler(new SpriteSelectionHandler() {
 				@Override
 				public void onSpriteSelect(SpriteSelectionEvent event) {
-					DataCenter.genEvent(project, Window.prompt("Event 名稱", ""));
+					String name = Window.prompt("Event 名稱", "");
+					if (name == null) { return; }
+					DataCenter.genEvent(project, name);
 				}
 			});
 			add(genEventBtn);
