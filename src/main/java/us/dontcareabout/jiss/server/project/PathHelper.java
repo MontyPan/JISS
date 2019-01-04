@@ -1,7 +1,6 @@
 package us.dontcareabout.jiss.server.project;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import com.google.common.base.Preconditions;
 
@@ -36,19 +35,10 @@ public class PathHelper {
 			.append(model.getArtifactId() + "-" + model.getVersion()).toFile();
 	}
 
-	//XXX 前提假設：需要 compile 的 gwt.xml 會在 project 的 root package 下
-	public static File gwtXml(Project project) throws FileNotFoundException {
-		File javaBase = javaBasePath(project).toFile();
-
-		for (File file : javaBase.listFiles()) {
-			if (file.isDirectory()) { continue; }
-
-			if (file.getName().endsWith(".gwt.xml")) {
-				return file;
-			}
-		}
-
-		throw new FileNotFoundException();
+	public static File gwtXml(Project project) {
+		//過去是找出 javaBasePath() 底下的所有 gwt.xml
+		//後來認為沒必要，因為都傳 project 進來就表示要找的是符合命名慣例
+		return new File(javaBasePath(project).existFolder().toFile(), project.getName() + ".gwt.xml");
 	}
 
 	private static Paths javaBasePath(Project project) {
