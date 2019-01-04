@@ -21,8 +21,12 @@ public class PathHelper {
 			.toFile();
 	}
 
+	public static Paths webappPaths(Project project) {
+		return new Paths(project.getPath()).append(WEBAPP).existFolder();
+	}
+
 	public static File webappFolder(Project project) {
-		return new Paths(project.getPath()).append(WEBAPP).toFile();
+		return webappPaths(project).toFile();
 	}
 
 	public static File targetWarFolder(Project project) {
