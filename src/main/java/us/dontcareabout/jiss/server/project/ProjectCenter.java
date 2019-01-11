@@ -72,18 +72,32 @@ public class ProjectCenter {
 		ftlConfig.setClassForTemplateLoading(ProjectCenter.class, "");
 	}
 
+	public static void init(Project project) throws Exception {
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("project", project);
+		data.put("groupName", "us.dontcareabout.app");	//XXX 抽出去？
+
+		gen("gwt.xml.ftl", data, PathHelper.gwtXml(project));
+		gen("EntryPoint.ftl", data, PathHelper.javaFile(project, "client", project.getName() + "EP"));
+		gen("RpcService.ftl", data, PathHelper.javaFile(project, "client", "RpcService"));
+		gen("RpcServiceImpl.ftl", data, PathHelper.javaFile(project, "server", "RpcServiceImpl"));
+		gen("webapp/index.html.ftl", data, new File(PathHelper.webappFolder(project), "index.html"));
+		gen("webapp/web.xml.ftl", data, new File(PathHelper.webappPaths(project).append("WEB-INF").toFile(), "web.xml"));
+		//擺在最後面，因為前面會幫忙建立根目錄
+		gen("pom.xml.ftl", data, new File(project.getPath(), "pom.xml"));
+	}
+
 	public static void genDataEvent(Project project, String eventName) throws Exception {
 		final String subPackage = "client.data";
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("project", project);
 		data.put("subPackage", subPackage);
 		data.put("eventName", eventName);
-		File packageFolder = PathHelper.packageFolder(project, subPackage);
 
 		gen(
 			"DataEvent.ftl",
 			data,
-			new File(packageFolder, eventName + "Event.java")
+			PathHelper.javaFile(project, subPackage, eventName + "Event")
 		);
 	}
 
