@@ -35,6 +35,10 @@ public class PathHelper {
 			.append(model.getArtifactId() + "-" + model.getVersion()).toFile();
 	}
 
+	public static File javaFile(Project project, String subPackage, String className) {
+		return new File(PathHelper.packageFolder(project, subPackage), className + ".java");
+	}
+
 	public static File gwtXml(Project project) {
 		//過去是找出 javaBasePath() 底下的所有 gwt.xml
 		//後來認為沒必要，因為都傳 project 進來就表示要找的是符合命名慣例
