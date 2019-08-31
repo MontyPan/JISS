@@ -5,10 +5,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import freemarker.template.Configuration;
 import us.dontcareabout.java.common.Paths;
@@ -62,6 +73,38 @@ public class ProjectCenter {
 		);
 
 		//目前不打算理會 error... XD
+	}
+
+	/**
+	 * 執行 {@link #build(Project)}，並將 GWT 產出複製到 CDN 的目錄下，
+	 * 然後 git push 到 remote repo 上。
+	 */
+	public static void deployGwtToCdn(Project project, File cdnRoot, String gitUser, String gitPW)
+			throws IOException, CheckoutConflictException, GitAPIException {
+		build(project);
+
+		File cdnFolder = new File(cdnRoot, project.getName());
+		String gwtModule = GwtHelper.moduleName(project);
+		ArrayList<File> error = new ArrayList<>();
+		Util.deleteFolder(cdnFolder, error);
+		Util.copyFolder(
+			new File(PathHelper.targetWarFolder(project), gwtModule),
+			cdnFolder,
+			error
+		);
+
+		CredentialsProvider cp = new UsernamePasswordCredentialsProvider(gitUser, gitPW);
+		File local = new File(cdnRoot, ".git");
+		Repository repo = new FileRepository(local);
+		ObjectId oid = repo.resolve("HEAD^");
+		String gitMessage = "[" + project.getName() + "] " + new SimpleDateFormat("yyyy.MM.dd HH:mm").format(new Date());
+
+		Git git = new Git(repo);
+		git.reset().setRef(oid.getName()).call();
+		git.add().addFilepattern(".").call();
+		git.commit().setAll(true).setMessage(gitMessage).call();
+		git.push().setCredentialsProvider(cp).setForce(true).call();
+		git.close();
 	}
 	// ======== //
 
