@@ -27,12 +27,6 @@
 			<artifactId>gf</artifactId>
 			<version>0.0.2</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-model</artifactId>
-			<version>3.5.3</version>
-		</dependency>
 	</dependencies>
 	
 	<build>
