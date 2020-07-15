@@ -9,8 +9,8 @@
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<webappDirectory>${r"${project.build.directory}"}/${r"${project.build.finalName}"}</webappDirectory>
 	</properties>
 	
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>us.dontcareabout</groupId>
 			<artifactId>gf</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.2.1</version>
 		</dependency>
 	</dependencies>
 	
@@ -38,12 +38,10 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<!-- FIXME 目前最新是 2.8.0 但是疑似在 I18N 的部份炸 error，所以只好指定一下目錄 -->
-				<version>2.7.0</version>
+				<version>2.8.0</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>generateAsync</goal>
 							<goal>compile</goal>
 							<goal>test</goal>
 							<goal>i18n</goal>
@@ -62,9 +60,9 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
+				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>8.1.16.v20140903</version>
+				<version>9.4.30.v20200611</version>
 			</plugin>
 		</plugins>
 	</build>	
