@@ -50,6 +50,7 @@
 				</executions>
 				<configuration>
 					<gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
+					<extraJvmArgs>-Xmx1024m</extraJvmArgs>
 					<incremental>false</incremental>
 					<precompile>false</precompile>
 					<hostedWebapp>${r"${webappDirectory}"}</hostedWebapp>
