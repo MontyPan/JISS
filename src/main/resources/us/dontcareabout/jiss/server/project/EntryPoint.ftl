@@ -1,13 +1,10 @@
 package ${project.rootPackage}.client;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 
 import us.dontcareabout.gwt.client.GFEP;
 
 public class ${project.name}EP extends GFEP {
-	static final RpcServiceAsync rpc = GWT.create(RpcService.class);
-
 	public ${project.name}EP() {}
 
 	@Override

@@ -4,13 +4,4 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 
-	<servlet>
-		<servlet-name>RPC</servlet-name>
-		<servlet-class>${project.rootPackage}.server.RpcServiceImpl</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>RPC</servlet-name>
-		<url-pattern>/${project.name}/RPC</url-pattern>
-	</servlet-mapping>
 </web-app>

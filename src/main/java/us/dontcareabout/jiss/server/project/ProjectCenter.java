@@ -122,8 +122,6 @@ public class ProjectCenter {
 
 		gen("gwt.xml.ftl", data, PathHelper.gwtXml(project));
 		gen("EntryPoint.ftl", data, PathHelper.javaFile(project, "client", project.getName() + "EP"));
-		gen("RpcService.ftl", data, PathHelper.javaFile(project, "client", "RpcService"));
-		gen("RpcServiceImpl.ftl", data, PathHelper.javaFile(project, "server", "RpcServiceImpl"));
 		gen("webapp/index.html.ftl", data, new File(PathHelper.webappFolder(project), "index.html"));
 		gen("webapp/web.xml.ftl", data, new File(PathHelper.webappPaths(project).append("WEB-INF").toFile(), "web.xml"));
 		//擺在最後面，因為前面會幫忙建立根目錄
