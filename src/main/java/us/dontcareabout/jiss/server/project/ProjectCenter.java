@@ -129,7 +129,14 @@ public class ProjectCenter {
 	}
 
 	public static void genDataEvent(Project project, String eventName) throws Exception {
-		final String subPackage = "client.data";
+		genEvent(project, "client.data.event", eventName);
+	}
+
+	public static void genUiEvent(Project project, String eventName) throws Exception {
+		genEvent(project, "client.ui.event", eventName);
+	}
+
+	private static void genEvent(Project project, String subPackage, String eventName) throws Exception {
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("project", project);
 		data.put("subPackage", subPackage);
