@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>us.dontcareabout</groupId>
 			<artifactId>gf</artifactId>
-			<version>0.0.2.1</version>
+			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	
@@ -38,7 +38,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.8.0</version>
+				<version>2.8.2</version>
 				<executions>
 					<execution>
 						<goals>
@@ -58,12 +58,6 @@
 						<!-- 新增的 I18N Message 檔要在這裡作對應 -->
 					</i18nMessagesBundles>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.30.v20200611</version>
 			</plugin>
 		</plugins>
 	</build>	
