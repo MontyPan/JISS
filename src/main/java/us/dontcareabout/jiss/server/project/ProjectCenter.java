@@ -149,6 +149,16 @@ public class ProjectCenter {
 		);
 	}
 
+	public static void genRest(Project project, String voName) throws Exception {
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("project", project);
+		data.put("voName", voName);
+
+		gen("VoEntity.ftl", data, PathHelper.javaFile(project, "shared.vo", voName));
+		gen("VoRepo.ftl", data, PathHelper.javaFile(project, "server.repo", voName + "Repo"));
+		gen("VoApi.ftl", data, PathHelper.javaFile(project, "server.api", voName + "Api"));
+	}
+
 	private static void gen(String ftlName, HashMap<String, Object> data, File target) throws Exception {
 		ftlConfig.getTemplate(ftlName).process(data, new FileWriter(target));
 	}
