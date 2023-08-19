@@ -3,14 +3,10 @@ package us.dontcareabout.jiss.server.project;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import com.google.gson.Gson;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
@@ -22,38 +18,12 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import freemarker.template.Configuration;
-import us.dontcareabout.java.common.Paths;
 import us.dontcareabout.jiss.server.Setting;
 import us.dontcareabout.jiss.server.Util;
 import us.dontcareabout.jiss.shared.Project;
 
 public class ProjectCenter {
-	private static final Gson gson = new Gson();
 	private static final Setting SETTING = new Setting();
-	private static final File PROJECT_DIR;
-	static {
-		PROJECT_DIR = new Paths(SETTING.workspace()).append("project").existFolder().toFile();
-	}
-
-	public static ArrayList<Project> getProjects() {
-		ArrayList<Project> result = new ArrayList<>();
-
-		for (File file : PROJECT_DIR.listFiles()) {
-			result.add(Util.parseJson(file, Project.class));
-		}
-
-		return result;
-	}
-
-	public static void save(Project project) {
-		File file = new File(PROJECT_DIR, project.getName());
-
-		try {
-			Files.write(file.toPath(), gson.toJson(project).getBytes(StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	// ==== 自動化區 ==== //
 	public static void build(Project project) throws IOException {

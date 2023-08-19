@@ -20,6 +20,6 @@ public class JISSEP extends GFEP {
 
 	@Override
 	protected void start() {
-		Window.setTitle("JISS~~~~");
+
 	}
 }

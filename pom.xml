@@ -6,6 +6,13 @@
 	<artifactId>JISS</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,24 +23,17 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
 			<groupId>us.dontcareabout</groupId>
 			<artifactId>GF</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
-		
+
+		<!-- Delete -->
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.5</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
@@ -45,15 +45,14 @@
 			<artifactId>maven-model</artifactId>
 			<version>3.5.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
 			<version>5.0.3.201809091024-r</version>
 		</dependency>
-		
 	</dependencies>
-	
+
 	<build>
 		<!-- Generate compiled stuff in the folder used for developing mode -->
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
@@ -67,7 +66,6 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>generateAsync</goal>
 							<goal>compile</goal>
 							<goal>test</goal>
 							<goal>i18n</goal>
@@ -76,30 +74,13 @@
 				</executions>
 				<configuration>
 					<gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
+					<extraJvmArgs>-Xmx1024m</extraJvmArgs>
 					<incremental>false</incremental>
 					<precompile>false</precompile>
 					<hostedWebapp>${webappDirectory}</hostedWebapp>
 					<i18nMessagesBundles>
 						<!-- 新增的 I18N Message 檔要在這裡作對應 -->
 					</i18nMessagesBundles>
-				</configuration>
-			</plugin>
-
-			<!-- Copy static web files before executing gwt:run -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>exploded</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<webappDirectory>${webappDirectory}</webappDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
