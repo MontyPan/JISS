@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import us.dontcareabout.jiss.shared.AlbumFolder;
 import us.dontcareabout.jiss.shared.FolderTree;
 
-//XXX 只處理 JPG
-
 @RestController
 @RequestMapping("album")
 public class AlbumAPI {
@@ -39,7 +37,10 @@ public class AlbumAPI {
 
 		for (File f : root.listFiles()) {
 			if (f.isDirectory()) { continue; }
-			if (!(f.getName().endsWith(".jpg") || f.getName().endsWith(".jpeg"))) { continue; }
+
+			String name = f.getName().toLowerCase();
+
+			if (!(name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png"))) { continue; }
 
 			list.add(f.getName());
 		}
