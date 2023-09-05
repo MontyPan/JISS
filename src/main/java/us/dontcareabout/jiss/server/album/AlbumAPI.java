@@ -15,12 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import us.dontcareabout.jiss.shared.AlbumFolder;
+import us.dontcareabout.jiss.shared.FolderTree;
 
 //XXX 只處理 JPG
 
 @RestController
 @RequestMapping("album")
 public class AlbumAPI {
+
+	@PostMapping("/tree")
+	public FolderTree tree(@RequestBody String rootPath) {
+		return build(new File(rootPath));
+	}
 
 	@PostMapping("/folder")
 	public AlbumFolder folder(@RequestBody String path) {
@@ -52,6 +58,8 @@ public class AlbumAPI {
 		}
 	}
 
+	///////////////////////////////////////////////////////////////////
+
 	private static String toDataUri(BufferedImage image, String type) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
@@ -60,5 +68,17 @@ public class AlbumAPI {
 			e.printStackTrace();
 		}
 		return "data:image/" + type + ";base64," + Base64Utils.encodeToString(baos.toByteArray());
+	}
+
+	private FolderTree build(File root) {
+		FolderTree result = new FolderTree();
+		result.setRoot(root.getAbsolutePath());
+
+		for (File f : root.listFiles()) {
+			if (f.isFile()) { continue; }
+			result.add(build(f));
+		}
+
+		return result;
 	}
 }
