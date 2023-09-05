@@ -61,6 +61,12 @@ public class AlbumView extends LayerContainer {
 
 	@Override
 	protected void adjustMember(int width, int height) {
+		root.setFixWidth(width);
+		root.setFixHeight(height);
+		//上面這兩行沒法塞在 CenterLayoutLayer.resize() 裡頭（因為 resize() 是 final）
+		//也不能塞在 CenterLayoutLayer.adjustMember() 裡頭，不然會破壞行為
+		//Refactory 或著說，要回頭檢討為什麼要另外設計 setFix__()，而不是乾脆直接用本身的大小....
+
 		root.resize(width, height);
 	}
 
