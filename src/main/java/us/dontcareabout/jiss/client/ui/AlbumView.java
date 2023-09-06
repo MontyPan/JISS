@@ -33,6 +33,7 @@ public class AlbumView extends LayerContainer {
 			adjustMember(getOffsetWidth(), getOffsetHeight());
 			redrawSurface();
 		});
+		UiCenter.addChangeAlbum(e -> refresh(e.data));
 
 		new KeyNav() {
 			@Override
@@ -52,7 +53,7 @@ public class AlbumView extends LayerContainer {
 
 			@Override
 			public void onPageUp(NativeEvent evt) { prev(); }
-		}.bind(this);;
+		}.bind(this);
 	}
 
 	public void refresh(String path) {
