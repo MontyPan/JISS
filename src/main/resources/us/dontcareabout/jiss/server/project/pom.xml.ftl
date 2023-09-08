@@ -6,29 +6,37 @@
 	<artifactId>${project.name}</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	
+
+<#if serverMode>	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+</#if>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<webappDirectory>${r"${project.build.directory}"}/${r"${project.build.finalName}"}</webappDirectory>
 	</properties>
-	
-	<dependencies>
+
+	<dependencies><#if serverMode>
+		<!-- server side -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- client side --></#if>
 		<dependency>
 			<groupId>us.dontcareabout</groupId>
 			<artifactId>gf</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<!-- Generate compiled stuff in the folder used for developing mode -->
 		<outputDirectory>${r"${webappDirectory}"}/WEB-INF/classes</outputDirectory>

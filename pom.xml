@@ -28,7 +28,6 @@
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 
-		<!-- Delete -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

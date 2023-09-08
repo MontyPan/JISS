@@ -85,10 +85,11 @@ public class ProjectCenter {
 		ftlConfig.setClassForTemplateLoading(ProjectCenter.class, "");
 	}
 
-	public static void init(Project project) throws Exception {
+	public static void init(Project project, boolean serverMode) throws Exception {
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("project", project);
 		data.put("groupName", "us.dontcareabout.app");	//XXX 抽出去？
+		data.put("serverMode", serverMode);
 
 		gen("gwt.xml.ftl", data, PathHelper.gwtXml(project));
 		gen("EntryPoint.ftl", data, PathHelper.javaFile(project, "client", project.getName() + "EP"));
