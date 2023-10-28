@@ -8,18 +8,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import freemarker.template.Configuration;
 import us.dontcareabout.jiss.server.Setting;
 import us.dontcareabout.jiss.server.Util;
+import us.dontcareabout.jiss.server.git.OverwirteCommitter;
 import us.dontcareabout.jiss.shared.Project;
 
 public class ProjectCenter {
@@ -63,18 +58,9 @@ public class ProjectCenter {
 			error
 		);
 
-		CredentialsProvider cp = new UsernamePasswordCredentialsProvider(gitUser, gitPW);
-		File local = new File(cdnRoot, ".git");
-		Repository repo = new FileRepository(local);
-		ObjectId oid = repo.resolve("HEAD^");
-		String gitMessage = "[" + project.getName() + "] " + new SimpleDateFormat("yyyy.MM.dd HH:mm").format(new Date());
-
-		Git git = new Git(repo);
-		git.reset().setRef(oid.getName()).call();
-		git.add().addFilepattern(".").call();
-		git.commit().setAll(true).setMessage(gitMessage).call();
-		git.push().setCredentialsProvider(cp).setForce(true).call();
-		git.close();
+		new OverwirteCommitter().repoPaht(cdnRoot.getAbsolutePath())
+			.credential(gitUser, gitPW)
+			.commit("[" + project.getName() + "] " + new SimpleDateFormat("yyyy.MM.dd HH:mm").format(new Date()));
 	}
 	// ======== //
 
@@ -91,6 +77,8 @@ public class ProjectCenter {
 		data.put("groupName", "us.dontcareabout.app");	//XXX 抽出去？
 		data.put("serverMode", serverMode);
 
+		//TODO SpringApp
+		//TODO resources 目錄以及先開個對應 package
 		gen("gwt.xml.ftl", data, PathHelper.gwtXml(project));
 		gen("EntryPoint.ftl", data, PathHelper.javaFile(project, "client", project.getName() + "EP"));
 		gen("webapp/index.html.ftl", data, new File(PathHelper.webappFolder(project), "index.html"));
