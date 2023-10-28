@@ -54,13 +54,25 @@ public class TempCleaner {
 	}
 
 	private static void processFolder(File folder, ArrayList<File> error) {
-		if (folder.getName().matches("gwt-codeserver-.*tmp")) {
+		if (folder.getName().matches("gwt-.*")) {
 			deleteFolder(folder, error);
 			return;
 		}
 
 		if (folder.getName().startsWith("ResourceProvider")) {
 			deleteFolder(folder, error);
+			return;
+		}
+
+		if (folder.getName().matches("tomcat.*")) {
+			deleteFolder(folder, error);
+			return;
+		}
+
+		//python
+		if (folder.getName().matches("mindexer-.*")) {
+			deleteFolder(folder, error);
+			return;
 		}
 	}
 }
