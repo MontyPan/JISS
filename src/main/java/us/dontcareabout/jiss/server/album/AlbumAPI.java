@@ -1,12 +1,9 @@
 package us.dontcareabout.jiss.server.album;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,8 +48,11 @@ public class AlbumAPI {
 	@PostMapping("/img")
 	public String img(@RequestBody String path) {
 		try {
-			//要用 " 包成標準 JSON 字串，不然 deserialize 的時候遇到冒號會炸
-			return "\"" + toDataUri(ImageIO.read(new File(path)), "jpg") + "\"";
+			return "\"" //要用 " 包成標準 JSON 字串，不然 deserialize 的時候遇到冒號會炸
+				+ "data:image/jpg;base64," //MIME type 無所謂... 反正都能正常顯示 [毆飛]
+				//直接把檔案丟出去就好了，不要再沒事繞 BufferedImage 一圈... [遮臉]
+				+ Base64Utils.encodeToString(Files.readAllBytes(new File(path).toPath()))
+				+ "\"";
 		} catch(IOException e) {
 			e.printStackTrace();
 			return "";
@@ -60,16 +60,6 @@ public class AlbumAPI {
 	}
 
 	///////////////////////////////////////////////////////////////////
-
-	private static String toDataUri(BufferedImage image, String type) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			ImageIO.write(image, type, baos);
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		return "data:image/" + type + ";base64," + Base64Utils.encodeToString(baos.toByteArray());
-	}
 
 	private FolderTree build(File root) {
 		FolderTree result = new FolderTree();
