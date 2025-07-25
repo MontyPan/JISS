@@ -37,7 +37,10 @@ public class AlbumAPI {
 
 			String name = f.getName().toLowerCase();
 
-			if (!(name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png"))) { continue; }
+			if (!(name.endsWith("webp") || name.endsWith(".jpg") ||
+					name.endsWith(".jpeg") || name.endsWith(".png"))) {
+				continue;
+			}
 
 			list.add(f.getName());
 		}
