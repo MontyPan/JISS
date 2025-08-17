@@ -78,7 +78,8 @@ public class ProjectCenter {
 		data.put("serverMode", serverMode);
 
 		//TODO SpringApp
-		//TODO resources 目錄以及先開個對應 package
+		PathHelper.resourceWithPkg(project);	//建立 resources + package 子目錄
+
 		gen("gwt.xml.ftl", data, PathHelper.gwtXml(project));
 		gen("EntryPoint.ftl", data, PathHelper.javaFile(project, "client", project.getName() + "EP"));
 		gen("webapp/index.html.ftl", data, new File(PathHelper.webappFolder(project), "index.html"));
