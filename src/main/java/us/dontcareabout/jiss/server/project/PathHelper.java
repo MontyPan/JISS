@@ -11,11 +11,20 @@ import us.dontcareabout.jiss.shared.Project;
 
 public class PathHelper {
 	private static final String[] JAVA_SRC_ROOT = {"src", "main", "java"};
+	private static final String[] RESOURCE_ROOT = {"src", "main", "resources"};
 	private static final String[] WEBAPP = {"src", "main", "webapp"};
 
 	public static File packageFolder(Project project, String subPackage) {
 		return javaBasePath(project)
 			.append(pkgToStr(subPackage))
+			.existFolder()
+			.toFile();
+	}
+
+	public static File resourceWithPkg(Project project) {
+		return new Paths(project.getPath())
+			.append(RESOURCE_ROOT)
+			.append(pkgToStr(project.getRootPackage()))
 			.existFolder()
 			.toFile();
 	}
